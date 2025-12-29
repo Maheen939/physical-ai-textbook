@@ -15,14 +15,14 @@ const config: Config = {
   },
 
   // Set the production url of your site here
-  url: 'https://maheen939.github.io',
+  url: 'https://Maheen939.github.io',
   // Set the /<baseUrl>/ pathname under which your site is served
   // For GitHub pages deployment, it is often '/<projectName>/'
   baseUrl: '/physical-ai-textbook/',
 
   // GitHub pages deployment config.
   // If you aren't using GitHub pages, you don't need these.
-  organizationName: 'maheen939', // Usually your GitHub org/user name.
+  organizationName: 'Maheen939', // Usually your GitHub org/user name.
   projectName: 'physical-ai-textbook', // Usually your repo name.
 
   onBrokenLinks: 'warn',
@@ -88,7 +88,7 @@ const config: Config = {
           label: 'Course Content',
         },
         {
-          href: 'https://github.com/your-username/physical-ai-textbook',
+          href: 'https://github.com/Maheen939/physical-ai-textbook',
           label: 'GitHub',
           position: 'right',
         },
