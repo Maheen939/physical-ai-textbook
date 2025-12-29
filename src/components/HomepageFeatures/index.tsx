@@ -11,32 +11,32 @@ type FeatureItem = {
 
 const FeatureList: FeatureItem[] = [
   {
-    title: 'Easy to Use',
+    title: 'Comprehensive Curriculum',
     Svg: require('@site/static/img/undraw_docusaurus_mountain.svg').default,
     description: (
       <>
-        Docusaurus was designed from the ground up to be easily installed and
-        used to get your website up and running quickly.
+        12 chapters covering foundations, simulation, embodied AI, robot learning,
+        and real-world deployment. From theory to practice with 100+ code examples.
       </>
     ),
   },
   {
-    title: 'Focus on What Matters',
+    title: 'Hands-On Learning',
     Svg: require('@site/static/img/undraw_docusaurus_tree.svg').default,
     description: (
       <>
-        Docusaurus lets you focus on your docs, and we&apos;ll do the chores. Go
-        ahead and move your docs into the <code>docs</code> directory.
+        Build real projects using MuJoCo, Isaac Sim, PyTorch, and industry-standard
+        tools. Deploy on actual hardware and learn from practical examples.
       </>
     ),
   },
   {
-    title: 'Powered by React',
+    title: 'AI-Powered Support',
     Svg: require('@site/static/img/undraw_docusaurus_react.svg').default,
     description: (
       <>
-        Extend or customize your website layout by reusing React. Docusaurus can
-        be extended while reusing the same header and footer.
+        Interactive chatbot with RAG capabilities to answer your questions.
+        Get instant help navigating the course content and understanding concepts.
       </>
     ),
   },

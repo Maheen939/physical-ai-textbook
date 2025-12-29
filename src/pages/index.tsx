@@ -21,7 +21,13 @@ function HomepageHeader() {
           <Link
             className="button button--secondary button--lg"
             to="/docs/intro">
-            Docusaurus Tutorial - 5min ⏱️
+            Start Learning
+          </Link>
+          <Link
+            className="button button--outline button--secondary button--lg"
+            to="/docs/intro"
+            style={{marginLeft: '1rem'}}>
+            View Course Content
           </Link>
         </div>
       </div>
@@ -33,8 +39,8 @@ export default function Home(): ReactNode {
   const {siteConfig} = useDocusaurusContext();
   return (
     <Layout
-      title={`Hello from ${siteConfig.title}`}
-      description="Description will go into a meta tag in <head />">
+      title={`Welcome to ${siteConfig.title}`}
+      description="Comprehensive guide to Physical AI and Humanoid Robotics - from simulation to reality. Learn embodied AI, robot learning, and deploy real-world robotic systems.">
       <HomepageHeader />
       <main>
         <HomepageFeatures />
