@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Urdu Translation Demo - Physical AI Textbook</title>
+    <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; background: #f5f5f5; padding: 20px; }
+        .container { max-width: 1000px; margin: 0 auto; }
+        .card { background: white; border-radius: 12px; padding: 24px; margin-bottom: 20px; box-shadow: 0 2px 8px rgba(0,0,0,0.1); }
+        .header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; flex-wrap: wrap; gap: 16px; }
+        h1 { font-size: 24px; color: #333; }
+        h2 { font-size: 18px; color: #555; margin-bottom: 12px; }
+        .btn { padding: 10px 20px; border: none; border-radius: 6px; cursor: pointer; font-weight: 500; transition: all 0.2s; display: inline-flex; align-items: center; gap: 8px; }
+        .btn-primary { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; }
+        .btn-primary:hover { transform: translateY(-1px); box-shadow: 0 4px 12px rgba(102, 126, 234, 0.4); }
+        .btn-secondary { background: #e9ecef; color: #495057; }
+        .btn-secondary:hover { background: #dee2e6; }
+        .btn-urdu { background: linear-gradient(135deg, #11998e 0%, #38ef7d 100%); color: white; }
+        .btn-urdu:hover { transform: translateY(-1px); box-shadow: 0 4px 12px rgba(17, 153, 142, 0.4); }
+        .content { line-height: 1.8; color: #444; }
+        .content p { margin-bottom: 16px; }
+        .content h3 { color: #333; margin: 20px 0 12px; }
+        .content ul { margin: 12px 0 16px 24px; }
+        .content li { margin-bottom: 8px; }
+        .content code { background: #f0f0f0; padding: 2px 6px; border-radius: 4px; font-family: 'Fira Code', monospace; }
+        .content pre { background: #2d2d2d; color: #f8f8f2; padding: 16px; border-radius: 8px; overflow-x: auto; margin: 16px 0; }
+        .badge { display: inline-block; padding: 4px 12px; border-radius: 20px; font-size: 12px; font-weight: 500; }
+        .badge-en { background: #e3f2fd; color: #1976d2; }
+        .badge-ur { background: #e8f5e9; color: #388e3c; }
+        .demo-notice { background: #fff3cd; border: 1px solid #ffc107; border-radius: 8px; padding: 12px 16px; margin-bottom: 16px; color: #856404; }
+        .loading { display: none; align-items: center; gap: 8px; color: #666; padding: 16px; background: #f8f9fa; border-radius: 8px; margin-bottom: 16px; }
+        .loading.active { display: flex; }
+        .spinner { width: 20px; height: 20px; border: 2px solid #ddd; border-top-color: #667eea; border-radius: 50%; animation: spin 1s linear infinite; }
+        @keyframes spin { to { transform: rotate(360deg); } }
+        .urdu-content { direction: rtl; text-align: right; font-family: 'Noto Nastaliq Urdu', 'Jameel Noori Nastaleeq', serif; font-size: 1.1em; line-height: 2; }
+        .urdu-content code, .urdu-content pre { direction: ltr; text-align: left; font-family: 'Fira Code', 'Consolas', monospace; }
+        .translation-indicator { display: flex; gap: 8px; margin-bottom: 16px; }
+        .tech-term { background: #e3f2fd; padding: 2px 8px; border-radius: 4px; font-size: 0.9em; color: #1976d2; }
+        .info-box { background: #f0f7ff; border-left: 4px solid #1976d2; padding: 12px 16px; margin: 16px 0; border-radius: 0 8px 8px 0; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="card">
+            <div class="header">
+                <h1>اردو ترجمہ - Urdu Translation Demo</h1>
+                <div class="translation-indicator">
+                    <button class="btn btn-secondary" onclick="showEnglish()">
+                        <span>🇬🇧</span> English
+                    </button>
+                    <button class="btn btn-urdu" onclick="translateToUrdu()">
+                        <span>🇵🇰</span> اردو میں پڑھیں
+                    </button>
+                </div>
+            </div>
+            <div class="demo-notice">
+                <strong>ڈیمو موڈ:</strong> یہ ترجمہ ڈیمو موڈ میں کام کرتا ہے۔、技术用語 برقرار رہتے ہیں۔
+            </div>
+            <div class="loading" id="loading">
+                <span class="spinner"></span>
+                <span>ترجمہ ہو رہا ہے... (Translating...)</span>
+            </div>
+        </div>
+
+        <div class="card">
+            <div class="header">
+                <h2>Chapter: ROS 2 Topics (باب: آر او ایس 2 ٹاپکس)</h2>
+                <span class="badge badge-en" id="langBadge">English</span>
+            </div>
+            <div class="content" id="chapterContent">
+                <h3>What are ROS 2 Topics?</h3>
+                <p>Topics are <span class="tech-term">communication channels</span> in ROS 2. They use a <span class="tech-term">publish-subscribe</span> pattern where nodes can send messages to a topic, and other nodes can receive those messages by subscribing to the same topic.</p>
+
+                <h3>Key Concepts</h3>
+                <ul>
+                    <li><strong>Publisher:</strong> A node that sends messages to a topic</li>
+                    <li><strong>Subscriber:</strong> A node that receives messages from a topic</li>
+                    <li><strong>Message:</strong> The data being sent, with a specific type</li>
+                    <li><strong>QoS (Quality of Service):</strong> Settings that control message delivery reliability</li>
+                </ul>
+
+                <h3>Example Code</h3>
+                <pre style="background: #2d2d2d; color: #f8f8f2; padding: 16px; border-radius: 8px; overflow-x: auto;">
+# Create a publisher
+publisher = node.create_publisher(String, '/topic', 10)
+
+# Publish a message
+msg = String()
+msg.data = 'Hello ROS 2!'
+publisher.publish(msg)
+                </pre>
+
+                <div class="info-box">
+                    <strong>Note:</strong> In Urdu translation, technical terms like ROS 2, URDF, publisher, subscriber, etc. remain in English while the explanation is translated to Urdu.
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Urdu translation mappings
+        const urduTranslations = {
+            'What are ROS 2 Topics?': 'آر او ایس 2 ٹاپکس کیا ہیں؟',
+            'Topics are': 'ٹاپکس دراصل ہیں',
+            'communication channels': 'communication channels (communication channels)',
+            'in ROS 2': 'ROS 2 میں',
+            'They use a': 'یہ استعمال کرتے ہیں',
+            'publish-subscribe pattern': 'publish-subscribe pattern (publish-subscribe pattern)',
+            'where nodes can send messages to a topic': 'جہاں nodes ایک topic پر messages بھیج سکتے ہیں',
+            'and other nodes can receive those messages by subscribing to the same topic': 'اور دوسرے nodes اسی topic کو subscribe کرکے وہ messages حاصل کر سکتے ہیں',
+            'Key Concepts': 'اہم تصورات',
+            'Publisher:': 'Publisher (ناشر):',
+            'A node that sends messages to a topic': 'ایک node جو topic پر messages بھیجتا ہے',
+            'Subscriber:': 'Subscriber (سبسکرائبر):',
+            'A node that receives messages from a topic': 'ایک node جو topic سے messages وصول کرتا ہے',
+            'Message:': 'Message (پیغام):',
+            'The data being sent, with a specific type': 'بھیجا جا رہا ڈیٹا، ایک مخصوص قسم کے ساتھ',
+            'QoS (Quality of Service):': 'QoS (Quality of Service - معیارِ خدمت):',
+            'Settings that control message delivery reliability': 'وہ ترتیبات جو message delivery کی reliability کو کنٹرول کرتی ہیں',
+            'Example Code': 'مثال کوڈ',
+            'Create a publisher': 'publisher بنائیں',
+            'Publish a message': 'message publish کریں',
+            'Hello ROS 2!': 'Hello ROS 2!',
+            'Note:': 'نوٹ:',
+            'In Urdu translation, technical terms like ROS 2, URDF, publisher, subscriber, etc. remain in English while the explanation is translated to Urdu.': 'اردو ترجمے میں ROS 2، URDF، publisher، subscriber جیسے technical terms انگریزی میں رہتے ہیں جبکہ وضاحت اردو میں کی جاتی ہے۔',
+            'Chapter: ROS 2 Topics (باب: آر او ایس 2 ٹاپکس)': 'Chapter: ROS 2 Topics (باب: آر او ایس 2 ٹاپکس)'
+        };
+
+        const urduIntro = `
+            <h3>ROS 2 ٹاپکس کیا ہیں؟</h3>
+            <p>Topics ROS 2 میں <span class="tech-term">communication channels</span> ہیں۔ یہ <span class="tech-term">publish-subscribe pattern</span> استعمال کرتے ہیں جس میں nodes ایک topic پر messages بھیج سکتے ہیں، اور دوسرے nodes اسی topic کو subscribe کرکے وہ messages حاصل کر سکتے ہیں۔</p>
+
+            <h3>اہم تصورات</h3>
+            <ul>
+                <li><strong>Publisher (ناشر):</strong> ایک node جو topic پر messages بھیجتا ہے</li>
+                <li><strong>Subscriber (سبسکرائبر):</strong> ایک node جو topic سے messages وصول کرتا ہے</li>
+                <li><strong>Message (پیغام):</strong> بھیجا جا رہا ڈیٹا، ایک مخصوص قسم کے ساتھ</li>
+                <li><strong>QoS (معیارِ خدمت):</strong> وہ ترتیبات جو message delivery کی reliability کو کنٹرول کرتی ہیں</li>
+            </ul>
+
+            <h3>مثال کوڈ</h3>
+            <pre style="background: #2d2d2d; color: #f8f8f2; padding: 16px; border-radius: 8px; overflow-x: auto;">
+# Publisher بنائیں
+publisher = node.create_publisher(String, '/topic', 10)
+
+# Message publish کریں
+msg = String()
+msg.data = 'Hello ROS 2!'
+publisher.publish(msg)
+            </pre>
+
+            <div class="info-box">
+                <strong>نوٹ:</strong> اردو ترجمے میں ROS 2، URDF، publisher، subscriber جیسے technical terms انگریزی میں رہتے ہیں جبکہ وضاحت اردو میں کی جاتی ہے۔
+            </div>
+
+            <h3>مزید جانیں</h3>
+            <p>ROS 2 topics robotics میں اہم کردار ادا کرتے ہیں۔ یہ nodes کے درمی میں data کے تبادلے کا ایک efficient طریقہ فراہم کرتے ہیں۔</p>
+
+            <ul>
+                <li><strong>Real-time data:</strong> Sensors سے continuous data بھیجنے کے لیے</li>
+                <li><strong>Decoupled communication:</strong> Nodes کو ایک دوسرے کے بارے میں جاننے کی ضرورت نہیں</li>
+                <li><strong>Flexibility:</strong> نئے subscribers یا publishers آسانی سے add کیے جا سکتے ہیں</li>
+            </ul>
+        `;
+
+        const englishContent = `
+            <h3>What are ROS 2 Topics?</h3>
+            <p>Topics are <span class="tech-term">communication channels</span> in ROS 2. They use a <span class="tech-term">publish-subscribe</span> pattern where nodes can send messages to a topic, and other nodes can receive those messages by subscribing to the same topic.</p>
+
+            <h3>Key Concepts</h3>
+            <ul>
+                <li><strong>Publisher:</strong> A node that sends messages to a topic</li>
+                <li><strong>Subscriber:</strong> A node that receives messages from a topic</li>
+                <li><strong>Message:</strong> The data being sent, with a specific type</li>
+                <li><strong>QoS (Quality of Service):</strong> Settings that control message delivery reliability</li>
+            </ul>
+
+            <h3>Example Code</h3>
+            <pre style="background: #2d2d2d; color: #f8f8f2; padding: 16px; border-radius: 8px; overflow-x: auto;">
+# Create a publisher
+publisher = node.create_publisher(String, '/topic', 10)
+
+# Publish a message
+msg = String()
+msg.data = 'Hello ROS 2!'
+publisher.publish(msg)
+            </pre>
+
+            <div class="info-box">
+                <strong>Note:</strong> In Urdu translation, technical terms like ROS 2, URDF, publisher, subscriber, etc. remain in English while the explanation is translated to Urdu.
+            </div>
+
+            <h3>Learn More</h3>
+            <p>ROS 2 topics play a crucial role in robotics. They provide an efficient way for nodes to exchange data without needing to know about each other.</p>
+
+            <ul>
+                <li><strong>Real-time data:</strong> For streaming continuous data from sensors</li>
+                <li><strong>Decoupled communication:</strong> Nodes don't need to know about each other</li>
+                <li><strong>Flexibility:</strong> New subscribers or publishers can be added easily</li>
+            </ul>
+        `;
+
+        let currentLanguage = 'en';
+
+        function translateToUrdu() {
+            if (currentLanguage === 'ur') return;
+
+            const loading = document.getElementById('loading');
+            const content = document.getElementById('chapterContent');
+            const langBadge = document.getElementById('langBadge');
+
+            loading.classList.add('active');
+
+            // Simulate API call delay
+            setTimeout(() => {
+                content.classList.add('urdu-content');
+                content.innerHTML = urduIntro;
+
+                langBadge.textContent = 'اردو';
+                langBadge.className = 'badge badge-ur';
+
+                currentLanguage = 'ur';
+                loading.classList.remove('active');
+
+                console.log('Translated to Urdu');
+            }, 1500);
+        }
+
+        function showEnglish() {
+            if (currentLanguage === 'en') return;
+
+            const loading = document.getElementById('loading');
+            const content = document.getElementById('chapterContent');
+            const langBadge = document.getElementById('langBadge');
+
+            loading.classList.add('active');
+
+            setTimeout(() => {
+                content.classList.remove('urdu-content');
+                content.innerHTML = englishContent;
+
+                langBadge.textContent = 'English';
+                langBadge.className = 'badge badge-en';
+
+                currentLanguage = 'en';
+                loading.classList.remove('active');
+
+                console.log('Switched to English');
+            }, 500);
+        }
+    </script>
+</body>
+</html>

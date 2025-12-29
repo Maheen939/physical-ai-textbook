@@ -1,0 +1,32 @@
+{
+  "name": "Generate ROS 2 Launch File",
+  "description": "Create launch.py files for ROS 2 packages",
+  "command": "/sp.plan Create a comprehensive launch.py file for ROS 2",
+  "parameters": {
+    "type": "object",
+    "properties": {
+      "package_name": {
+        "type": "string",
+        "description": "Name of the ROS 2 package"
+      },
+      "nodes": {
+        "type": "array",
+        "description": "List of nodes to launch",
+        "items": {
+          "type": "object",
+          "properties": {
+            "name": { "type": "string" },
+            "executable": { "type": "string" },
+            "parameters": { "type": "array" },
+            "remappings": { "type": "array" }
+          }
+        }
+      },
+      "world_file": {
+        "type": "string",
+        "description": "Gazebo world file to include"
+      }
+    },
+    "required": ["package_name", "nodes"]
+  }
+}

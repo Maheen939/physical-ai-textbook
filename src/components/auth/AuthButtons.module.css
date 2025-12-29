@@ -1,0 +1,236 @@
+/* Authentication Component Styles */
+
+.authButtons {
+  display: flex;
+  gap: 0.75rem;
+  align-items: center;
+}
+
+.signInButton {
+  padding: 0.5rem 1rem;
+  background: var(--ifm-color-primary);
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-weight: 500;
+  transition: background 0.2s;
+}
+
+.signInButton:hover {
+  background: var(--ifm-color-primary-dark);
+}
+
+.userMenu {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.userName {
+  font-weight: 500;
+  color: var(--ifm-color-content);
+}
+
+.signOutButton {
+  padding: 0.5rem 1rem;
+  background: transparent;
+  color: var(--ifm-color-content);
+  border: 1px solid var(--ifm-color-emphasis-300);
+  border-radius: 4px;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.signOutButton:hover {
+  background: var(--ifm-color-emphasis-100);
+}
+
+.loading {
+  color: var(--ifm-color-content-secondary);
+  font-size: 0.875rem;
+}
+
+/* Modal Styles */
+.modal {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background: var(--ifm-background-color);
+  border-radius: 8px;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+  padding: 2rem;
+  max-width: 420px;
+  width: 90%;
+  z-index: 1000;
+  border: 1px solid var(--ifm-color-emphasis-200);
+}
+
+.modal::backdrop {
+  background: rgba(0, 0, 0, 0.5);
+}
+
+.modalContent {
+  position: relative;
+}
+
+.closeButton {
+  position: absolute;
+  top: -0.5rem;
+  right: -0.5rem;
+  background: none;
+  border: none;
+  font-size: 1.5rem;
+  cursor: pointer;
+  color: var(--ifm-color-content-secondary);
+  line-height: 1;
+}
+
+.closeButton:hover {
+  color: var(--ifm-color-content);
+}
+
+.modal h2 {
+  margin: 0 0 0.5rem;
+  font-size: 1.5rem;
+}
+
+.subtitle {
+  color: var(--ifm-color-content-secondary);
+  margin-bottom: 1.5rem;
+  font-size: 0.875rem;
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.label {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  font-size: 0.875rem;
+  font-weight: 500;
+}
+
+.input {
+  padding: 0.75rem;
+  border: 1px solid var(--ifm-color-emphasis-300);
+  border-radius: 4px;
+  font-size: 1rem;
+  background: var(--ifm-background-color);
+  color: var(--ifm-color-content);
+}
+
+.input:focus {
+  outline: none;
+  border-color: var(--ifm-color-primary);
+  box-shadow: 0 0 0 2px var(--ifm-color-primary-lightest);
+}
+
+.submitButton {
+  padding: 0.75rem;
+  background: var(--ifm-color-primary);
+  color: white;
+  border: none;
+  border-radius: 4px;
+  font-size: 1rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background 0.2s;
+  margin-top: 0.5rem;
+}
+
+.submitButton:hover:not(:disabled) {
+  background: var(--ifm-color-primary-dark);
+}
+
+.submitButton:disabled {
+  opacity: 0.7;
+  cursor: not-allowed;
+}
+
+.switchMode {
+  text-align: center;
+  margin-top: 1.5rem;
+  font-size: 0.875rem;
+  color: var(--ifm-color-content-secondary);
+}
+
+.linkButton {
+  background: none;
+  border: none;
+  color: var(--ifm-color-primary);
+  cursor: pointer;
+  font-weight: 500;
+  padding: 0;
+}
+
+.linkButton:hover {
+  text-decoration: underline;
+}
+
+.error {
+  color: var(--ifm-color-danger);
+  font-size: 0.875rem;
+  margin: 0;
+}
+
+/* Profiling Form Styles */
+.profilingForm {
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+  max-height: 50vh;
+  overflow-y: auto;
+  padding-right: 0.5rem;
+}
+
+.question {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.questionLabel {
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: var(--ifm-color-content);
+}
+
+.select {
+  padding: 0.75rem;
+  border: 1px solid var(--ifm-color-emphasis-300);
+  border-radius: 4px;
+  font-size: 0.875rem;
+  background: var(--ifm-background-color);
+  color: var(--ifm-color-content);
+  cursor: pointer;
+}
+
+.select:focus {
+  outline: none;
+  border-color: var(--ifm-color-primary);
+}
+
+/* Scrollbar styling for profiling form */
+.profilingForm::-webkit-scrollbar {
+  width: 6px;
+}
+
+.profilingForm::-webkit-scrollbar-track {
+  background: var(--ifm-color-emphasis-100);
+  border-radius: 3px;
+}
+
+.profilingForm::-webkit-scrollbar-thumb {
+  background: var(--ifm-color-emphasis-300);
+  border-radius: 3px;
+}
+
+.profilingForm::-webkit-scrollbar-thumb:hover {
+  background: var(--ifm-color-emphasis-400);
+}

@@ -1,0 +1,328 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Content Personalization Demo</title>
+    <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; background: #f5f5f5; padding: 20px; }
+        .container { max-width: 900px; margin: 0 auto; }
+        .card { background: white; border-radius: 12px; padding: 24px; margin-bottom: 20px; box-shadow: 0 2px 8px rgba(0,0,0,0.1); }
+        .header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; }
+        h1 { font-size: 24px; color: #333; }
+        h2 { font-size: 18px; color: #555; margin-bottom: 12px; }
+        .btn { padding: 10px 20px; border: none; border-radius: 6px; cursor: pointer; font-weight: 500; transition: all 0.2s; }
+        .btn-primary { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; }
+        .btn-primary:hover { transform: translateY(-1px); box-shadow: 0 4px 12px rgba(102, 126, 234, 0.4); }
+        .btn-secondary { background: #e9ecef; color: #495057; }
+        .btn-secondary:hover { background: #dee2e6; }
+        .content { line-height: 1.8; color: #444; }
+        .content p { margin-bottom: 16px; }
+        .content h3 { color: #333; margin: 20px 0 12px; }
+        .content ul { margin: 12px 0 16px 24px; }
+        .content li { margin-bottom: 8px; }
+        .badge { display: inline-block; padding: 4px 12px; border-radius: 20px; font-size: 12px; font-weight: 500; }
+        .badge-beginner { background: #e3f2fd; color: #1976d2; }
+        .badge-intermediate { background: #fff3e0; color: #f57c00; }
+        .badge-advanced { background: #fce4ec; color: #c2185b; }
+        .profile-tag { display: inline-flex; align-items: center; gap: 6px; padding: 6px 12px; background: #f0f0f0; border-radius: 20px; font-size: 13px; margin: 4px; }
+        .profile-section { background: #fafafa; border-radius: 8px; padding: 16px; margin-top: 16px; }
+        .demo-notice { background: #fff3cd; border: 1px solid #ffc107; border-radius: 8px; padding: 12px 16px; margin-bottom: 16px; color: #856404; }
+        .loading { display: none; align-items: center; gap: 8px; color: #666; }
+        .loading.active { display: flex; }
+        .spinner { width: 16px; height: 16px; border: 2px solid #ddd; border-top-color: #667eea; border-radius: 50%; animation: spin 1s linear infinite; }
+        @keyframes spin { to { transform: rotate(360deg); } }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="card">
+            <div class="header">
+                <h1>Content Personalization Demo</h1>
+                <div>
+                    <button class="btn btn-secondary" onclick="showOriginal()">Original</button>
+                    <button class="btn btn-primary" onclick="personalize()">Personalize for Me</button>
+                </div>
+            </div>
+            <div class="demo-notice">
+                <strong>Demo Mode:</strong> Personalization adapts content based on user profile stored locally.
+            </div>
+            <div class="loading" id="loading">
+                <span class="spinner"></span>
+                Personalizing content...
+            </div>
+        </div>
+
+        <div class="card">
+            <div class="header">
+                <h2>Your Learning Profile</h2>
+                <button class="btn btn-secondary" onclick="editProfile()">Edit Profile</button>
+            </div>
+            <div id="profileDisplay">
+                <span class="profile-tag">Programming: <strong id="progLevel">Beginner</strong></span>
+                <span class="profile-tag">Robotics: <strong id="roboticsExp">None</strong></span>
+                <span class="profile-tag">ROS 2: <strong id="ros2Level">None</strong></span>
+                <span class="profile-tag">Goal: <strong id="learningGoal">Understanding</strong></span>
+            </div>
+        </div>
+
+        <div class="card">
+            <div class="header">
+                <h2>Chapter: ROS 2 Topics</h2>
+                <span class="badge badge-beginner" id="contentLevel">Beginner Level</span>
+            </div>
+            <div class="content" id="chapterContent">
+                <h3>What are ROS 2 Topics?</h3>
+                <p>Topics are communication channels in ROS 2. They use a publish-subscribe pattern where nodes can send messages to a topic, and other nodes can receive those messages by subscribing to the same topic.</p>
+
+                <h3>Key Concepts</h3>
+                <ul>
+                    <li><strong>Publisher:</strong> A node that sends messages to a topic</li>
+                    <li><strong>Subscriber:</strong> A node that receives messages from a topic</li>
+                    <li><strong>Message:</strong> The data being sent, with a specific type</li>
+                    <li><strong>QoS (Quality of Service):</strong> Settings that control message delivery reliability</li>
+                </ul>
+
+                <h3>Example Code</h3>
+                <pre style="background: #2d2d2d; color: #f8f8f2; padding: 16px; border-radius: 8px; overflow-x: auto;">
+# Create a publisher
+publisher = node.create_publisher(String, '/topic', 10)
+
+# Publish a message
+msg = String()
+msg.data = 'Hello ROS 2!'
+publisher.publish(msg)
+                </pre>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // User profile storage
+        const defaultProfile = {
+            programmingLevel: 'beginner',
+            roboticsExperience: 'none',
+            ros2Familiarity: 'none',
+            learningGoal: 'understanding'
+        };
+
+        // Load or save profile
+        function getProfile() {
+            const stored = localStorage.getItem('userProfile');
+            return stored ? JSON.parse(stored) : defaultProfile;
+        }
+
+        function saveProfile(profile) {
+            localStorage.setItem('userProfile', JSON.stringify(profile));
+            updateProfileDisplay();
+        }
+
+        function updateProfileDisplay() {
+            const profile = getProfile();
+            document.getElementById('progLevel').textContent = capitalize(profile.programmingLevel);
+            document.getElementById('roboticsExp').textContent = capitalize(profile.roboticsExperience);
+            document.getElementById('ros2Level').textContent = capitalize(profile.ros2Familiarity);
+            document.getElementById('learningGoal').textContent = capitalize(profile.learningGoal);
+        }
+
+        function capitalize(s) { return s.charAt(0).toUpperCase() + s.slice(1); }
+
+        // Personalization mappings
+        const personalizationMap = {
+            'beginner': {
+                level: 'Beginner Level',
+                badgeClass: 'badge-beginner',
+                adaptations: [
+                    'Added extra explanations for each concept',
+                    'Included real-world analogies',
+                    'More detailed code comments',
+                    'Step-by-step breakdown of the process'
+                ]
+            },
+            'intermediate': {
+                level: 'Intermediate Level',
+                badgeClass: 'badge-intermediate',
+                adaptations: [
+                    'Standard explanations with practical tips',
+                    'Code examples with moderate comments',
+                    'Links to advanced topics',
+                    'Focus on implementation details'
+                ]
+            },
+            'advanced': {
+                level: 'Advanced Level',
+                badgeClass: 'badge-advanced',
+                adaptations: [
+                    'Concise explanations',
+                    'Performance optimization tips',
+                    'Advanced patterns and best practices',
+                    'Research-level insights'
+                ]
+            }
+        };
+
+        function personalize() {
+            const profile = getProfile();
+            const loading = document.getElementById('loading');
+            const content = document.getElementById('chapterContent');
+            const levelBadge = document.getElementById('contentLevel');
+
+            loading.classList.add('active');
+
+            // Simulate API call delay
+            setTimeout(() => {
+                const personalizer = personalizationMap[profile.programmingLevel] || personalizationMap['beginner'];
+
+                // Update badge
+                levelBadge.textContent = personalizer.level;
+                levelBadge.className = 'badge ' + personalizer.badgeClass;
+
+                // Generate personalized content based on profile
+                let adaptedContent = '';
+
+                if (profile.programmingLevel === 'beginner') {
+                    adaptedContent = `
+                        <h3>What are ROS 2 Topics? (Beginner Guide)</h3>
+                        <p><strong>Think of topics like a bulletin board:</strong> Anyone can post messages (publishers) and anyone can read them (subscribers). It's like a group chat where messages are broadcast to everyone listening!</p>
+
+                        <h3>🔧 The Four Key Players</h3>
+                        <ul>
+                            <li><strong>Publisher:</strong> The one who writes and posts messages. Example: A temperature sensor that publishes readings every second.</li>
+                            <li><strong>Subscriber:</strong> The one who reads messages. Example: A display node that shows the temperature.</li>
+                            <li><strong>Message:</strong> The actual content being shared. Like a sticky note with the temperature value.</li>
+                            <li><strong>Topic:</strong> The name on the bulletin board. Like "temperature_readings".</li>
+                        </ul>
+
+                        <h3>📝 Code with Extra Comments (Beginner Style)</h3>
+                        <pre style="background: #2d2d2d; color: #f8f8f2; padding: 16px; border-radius: 8px; overflow-x: auto;">
+# First, we import the String message type
+from std_msgs.msg import String
+
+# Create a publisher object
+# This is like setting up our bulletin board
+publisher = node.create_publisher(
+    String,           # Type of message (text)
+    '/topic',         # Topic name (where to post)
+    10                # Queue size (how many messages to keep)
+)
+
+# Create the message
+msg = String()
+msg.data = 'Hello ROS 2!'
+
+# Send/display the message on the bulletin board
+publisher.publish(msg)
+                        </pre>
+
+                        <h3>⚡ What Makes This Special?</h3>
+                        <ul>
+                            <li>Nodes don't need to know about each other</li>
+                            <li>Multiple subscribers can read the same message</li>
+                            <li>You can add new subscribers anytime</li>
+                        </ul>
+                    `;
+                } else if (profile.programmingLevel === 'intermediate') {
+                    adaptedContent = `
+                        <h3>ROS 2 Topics: Pub/Sub Communication</h3>
+                        <p>Topics use the publish-subscribe pattern for asynchronous, many-to-many communication between nodes.</p>
+
+                        <h3>Key Concepts</h3>
+                        <ul>
+                            <li><strong>Publisher:</strong> Sends messages to a topic with a specific message type</li>
+                            <li><strong>Subscriber:</strong> Registers a callback to receive topic messages</li>
+                            <li><strong>QoS:</strong> Controls reliability, history, and latency behavior</li>
+                        </ul>
+
+                        <h3>Implementation</h3>
+                        <pre style="background: #2d2d2d; color: #f8f8f2; padding: 16px; border-radius: 8px; overflow-x: auto;">
+publisher = node.create_publisher(String, '/topic', qos_profile)
+subscription = node.create_subscription(String, '/topic', callback, qos_profile)
+
+# Best practices:
+# - Use appropriate QoS for your use case
+# - Handle message serialization efficiently
+# - Consider topic frequency vs. processing time
+                        </pre>
+                    `;
+                } else {
+                    adaptedContent = `
+                        <h3>ROS 2 Topics: DDS Pub/Sub Deep Dive</h3>
+                        <p>Topics wrap DDS publish-subscribe with ROS-specific message types and discovery.</p>
+
+                        <h3>Advanced Considerations</h3>
+                        <ul>
+                            <li>DDS backends: FastDDS, CycloneDPS, RTI Connext</li>
+                            <li>QoS policies: reliability, durability, history, deadline</li>
+                            <li>Topic allocation and discovery participants</li>
+                            <li>Performance optimization for high-frequency data</li>
+                        </ul>
+
+                        <h3>Code</h3>
+                        <pre style="background: #2d2d2d; color: #f8f8f2; padding: 16px; border-radius: 8px; overflow-x: auto;">
+from rclpy.qos import QoSProfile, ReliabilityPolicy, DurabilityPolicy
+
+qos = QoSProfile(
+    reliability=ReliabilityPolicy.RELIABLE,
+    durability=DurabilityPolicy.TRANSIENT_LOCAL,
+    depth=10
+)
+publisher = node.create_publisher(String, '/topic', qos)
+                        </pre>
+                    `;
+                }
+
+                content.innerHTML = adaptedContent;
+                loading.classList.remove('active');
+
+                console.log('Content personalized for:', profile);
+            }, 1000);
+        }
+
+        function showOriginal() {
+            const content = document.getElementById('chapterContent');
+            const levelBadge = document.getElementById('contentLevel');
+
+            levelBadge.textContent = 'Beginner Level';
+            levelBadge.className = 'badge badge-beginner';
+
+            content.innerHTML = `
+                <h3>What are ROS 2 Topics?</h3>
+                <p>Topics are communication channels in ROS 2. They use a publish-subscribe pattern where nodes can send messages to a topic, and other nodes can receive those messages by subscribing to the same topic.</p>
+
+                <h3>Key Concepts</h3>
+                <ul>
+                    <li><strong>Publisher:</strong> A node that sends messages to a topic</li>
+                    <li><strong>Subscriber:</strong> A node that receives messages from a topic</li>
+                    <li><strong>Message:</strong> The data being sent, with a specific type</li>
+                    <li><strong>QoS (Quality of Service):</strong> Settings that control message delivery reliability</li>
+                </ul>
+
+                <h3>Example Code</h3>
+                <pre style="background: #2d2d2d; color: #f8f8f2; padding: 16px; border-radius: 8px; overflow-x: auto;">
+# Create a publisher
+publisher = node.create_publisher(String, '/topic', 10)
+
+# Publish a message
+msg = String()
+msg.data = 'Hello ROS 2!'
+publisher.publish(msg)
+                </pre>
+            `;
+        }
+
+        function editProfile() {
+            const profile = getProfile();
+            const newLevel = prompt('Programming level (beginner/intermediate/advanced):', profile.programmingLevel);
+            if (newLevel && ['beginner', 'intermediate', 'advanced'].includes(newLevel)) {
+                profile.programmingLevel = newLevel;
+                saveProfile(profile);
+                alert('Profile updated! Click "Personalize for Me" to see the changes.');
+            }
+        }
+
+        // Initialize
+        updateProfileDisplay();
+    </script>
+</body>
+</html>

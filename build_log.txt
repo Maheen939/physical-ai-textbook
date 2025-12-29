@@ -1,0 +1,12 @@
+
+> physical-ai-textbook@0.0.0 build
+> docusaurus build
+
+[INFO] [en] Creating an optimized production build...
+[90m[[90mwebpackbar[90m][39m [36mℹ[39m Compiling Client
+[90m[[90mwebpackbar[90m][39m [36mℹ[39m Compiling Server
+[90m[[90mwebpackbar[90m][39m [32m✔[39m Server: Compiled successfully in 21.72s
+[90m[[90mwebpackbar[90m][39m [32m✔[39m Client: Compiled successfully in 1.80m
+
+[INFO] Docusaurus version: 3.9.2
+Node version: v24.11.1

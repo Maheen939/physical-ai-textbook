@@ -1,0 +1,93 @@
+/* Personalization Button Styles */
+
+.container {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.75rem;
+  margin: 1rem 0;
+}
+
+.button {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.625rem 1.25rem;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+  border: none;
+  border-radius: 6px;
+  font-size: 0.875rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s;
+  box-shadow: 0 2px 4px rgba(102, 126, 234, 0.3);
+}
+
+.button:hover:not(:disabled) {
+  transform: translateY(-1px);
+  box-shadow: 0 4px 8px rgba(102, 126, 234, 0.4);
+}
+
+.button:disabled {
+  opacity: 0.7;
+  cursor: not-allowed;
+}
+
+.resetButton {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.625rem 1.25rem;
+  background: var(--ifm-color-emphasis-200);
+  color: var(--ifm-color-content);
+  border: 1px solid var(--ifm-color-emphasis-300);
+  border-radius: 6px;
+  font-size: 0.875rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.resetButton:hover {
+  background: var(--ifm-color-emphasis-100);
+}
+
+.cachedBadge {
+  font-size: 0.75rem;
+  color: var(--ifm-color-success);
+  background: var(--ifm-color-success-lightest);
+  padding: 0.25rem 0.5rem;
+  border-radius: 4px;
+}
+
+.hint {
+  font-size: 0.75rem;
+  color: var(--ifm-color-content-secondary);
+}
+
+.error {
+  font-size: 0.75rem;
+  color: var(--ifm-color-danger);
+  background: var(--ifm-color-danger-lightest);
+  padding: 0.25rem 0.5rem;
+  border-radius: 4px;
+}
+
+/* Icon styles */
+.icon {
+  width: 16px;
+  height: 16px;
+}
+
+.spinner {
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}

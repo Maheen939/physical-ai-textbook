@@ -1,0 +1,29 @@
+{
+  "name": "Test Code Example",
+  "description": "Validate and test code examples from the textbook",
+  "command": "Test and validate the provided code example",
+  "parameters": {
+    "type": "object",
+    "properties": {
+      "code": {
+        "type": "string",
+        "description": "Code to test"
+      },
+      "language": {
+        "type": "string",
+        "description": "Programming language",
+        "enum": ["python", "cpp", "yaml", "bash"]
+      },
+      "dependencies": {
+        "type": "array",
+        "description": "Required dependencies"
+      },
+      "test_type": {
+        "type": "string",
+        "description": "Type of test",
+        "enum": ["syntax", "unit", "integration", "simulation"]
+      }
+    },
+    "required": ["code", "language"]
+  }
+}

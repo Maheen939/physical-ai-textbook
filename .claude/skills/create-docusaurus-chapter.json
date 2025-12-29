@@ -1,0 +1,39 @@
+{
+  "name": "Create Docusaurus Chapter",
+  "description": "Generate a complete textbook chapter in Docusaurus markdown format",
+  "command": "/sp.specify Create comprehensive content for a Physical AI textbook chapter",
+  "parameters": {
+    "type": "object",
+    "properties": {
+      "chapter_title": {
+        "type": "string",
+        "description": "Title of the chapter"
+      },
+      "module": {
+        "type": "string",
+        "description": "Module number (1-4)"
+      },
+      "chapter_number": {
+        "type": "number",
+        "description": "Chapter number within module"
+      },
+      "learning_objectives": {
+        "type": "array",
+        "description": "List of learning objectives"
+      },
+      "topics": {
+        "type": "array",
+        "description": "Main topics to cover"
+      },
+      "code_examples": {
+        "type": "array",
+        "description": "Code examples to include"
+      },
+      "exercises": {
+        "type": "array",
+        "description": "Hands-on exercises"
+      }
+    },
+    "required": ["chapter_title", "module", "chapter_number"]
+  }
+}
